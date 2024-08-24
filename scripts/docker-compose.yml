@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  test-data:
+    build:
+      context: .
+    ports:
+      - "6543:6543"
+    env_file:
+     - .env
+
+
