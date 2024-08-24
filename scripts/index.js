@@ -7,7 +7,7 @@ const { fetchAndStoreDydxData } = require("./dydx")
 const { fetchAndStoreHyperliquidData } = require("./hyperliquid")
 const provider = new ethers.JsonRpcProvider(ARBITRUM_RPC_URL);
 
-cron.schedule('* * * * *', async () => {
+const job = cron.schedule('* * * * *', async () => {
     try {
         console.log("Fetching data...");
         const block = await provider.getBlock("latest");
@@ -19,5 +19,7 @@ cron.schedule('* * * * *', async () => {
         console.log("Finished fetching data...");
     } catch (error) {
         console.log(`Error running cron job at : ${Math.floor(Date.now() / 1000)}`, error);
+        job.stop()
+        console.log("Stopped cron job!");
     }
 });

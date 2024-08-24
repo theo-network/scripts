@@ -16,14 +16,19 @@ const db = new Client({
     database: DB_NAME
 });
 
-db.connect()
-    .then(() => {
-        console.log('Successfully connected to database!')
-        createSchema()
-            .then(() => console.log("Successfully created schema!"))
-            .catch(err => console.log("Error creating schema!", err));
-    })
-    .catch(err => console.error('Cannot connect to database!', err));
+async function connectAndCreateSchema() {
+    try {
+        await db.connect();
+        console.log('Successfully connected to database!');
+        await createSchema();
+        console.log('Successfully created schema!');
+    } catch (err) {
+        console.error('Error connecting to database:', err);
+    }
+}
+
+connectAndCreateSchema();
+    
 
 db.promise = (query, params) => {
     return new Promise((resolve, reject) => {
@@ -47,6 +52,7 @@ const createSchema = async () => {
                 "usdc_borrow_rate" DOUBLE PRECISION NOT NULL,
                 "block_number" INT NOT NULL,
                 "timestamp" INT NOT NULL,
+                "date" TIMESTAMPTZ NOT NULL,
                 PRIMARY KEY ("timestamp")
             );
 	    `
@@ -58,6 +64,7 @@ const createSchema = async () => {
                 "eth_funding_rate" DOUBLE PRECISION NOT NULL,
                 "btc_funding_rate" DOUBLE PRECISION NOT NULL,
                 "timestamp" INT NOT NULL,
+                "date" TIMESTAMPTZ NOT NULL,
                 PRIMARY KEY ("timestamp")
             );
 	    `
@@ -70,6 +77,7 @@ const createSchema = async () => {
                 "eth_funding_rate" DOUBLE PRECISION NOT NULL,
                 "btc_funding_rate" DOUBLE PRECISION NOT NULL,
                 "timestamp" INT NOT NULL,
+                "date" TIMESTAMPTZ NOT NULL,
                 PRIMARY KEY ("timestamp")
             );
 	    `
