@@ -9,8 +9,8 @@ const fetchAndStoreHyperliquidData = async (blockTimestamp) => {
         const { funding: btcFundingRate } = response.data[1][btcIndex];
         await db.promise("INSERT INTO hyperliquid(eth_funding_rate, btc_funding_rate, timestamp, date) VALUES ($1,$2,$3,$4)", [Number(ethFundingRate).toFixed(10), Number(btcFundingRate).toFixed(10), blockTimestamp, new Date(blockTimestamp * 1000)]);
     } catch (err) {
-        console.error('Error fetching and storing Hyperliquid data:', err);
-        throw err;
+        console.log(`[${new Date().toISOString()}] Error fetching and storing Hyperliquid data: `, err);
+        throw "Error fetching and storing Hyperliquid data";
     }
 };
 

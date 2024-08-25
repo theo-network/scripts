@@ -19,8 +19,8 @@ const fetchAndStoreAaveData = async (blockNumber, blockTimestamp, provider) => {
         await db.promise("INSERT INTO aave(eth_supply_rate, btc_supply_rate, usdc_borrow_rate, block_number, timestamp, date) VALUES ($1,$2,$3,$4,$5,$6)",[ethSupplyRateFormatted, btcSupplyRateFormatted, usdcBorrowRateFormatted, blockNumber, blockTimestamp, new Date(blockTimestamp * 1000)]);
     }
     catch (err) {
-        console.error('Error fetching and storing Aave data:', err);
-        throw err;
+        console.log(`[${new Date().toISOString()}] Error fetching and storing Aave data: `, err);
+        throw "Error fetching and storing Aave data";
     }
 };
 

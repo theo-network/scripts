@@ -9,8 +9,8 @@ const fetchAndStoreDydxData = async (blockTimestamp) => {
         await db.promise("INSERT INTO dydx(eth_funding_rate, btc_funding_rate, timestamp, date) VALUES ($1,$2,$3,$4)", [Number(ethFundingRate).toFixed(10), Number(btcFundingRate).toFixed(10), blockTimestamp, new Date(blockTimestamp * 1000)]);
     }
     catch (err) {
-        console.error('Error fetching and storing Dydx data:', err);
-        throw err;
+        console.log(`[${new Date().toISOString()}] Error fetching and storing Dydx data: `, err);
+        throw "Error fetching and storing Dydx data";
     }
 };
 

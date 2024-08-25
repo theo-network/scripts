@@ -9,15 +9,15 @@ const provider = new ethers.JsonRpcProvider(ARBITRUM_RPC_URL);
 
 const job = cron.schedule('* * * * *', async () => {
     try {
-        console.log("Fetching data...");
+        console.log(`[${new Date().toISOString()}] Fetching data...`);
         const block = await provider.getBlock("latest");
         await Promise.all([
             fetchAndStoreAaveData(block.number, block.timestamp, provider),
             fetchAndStoreHyperliquidData(block.timestamp),
             fetchAndStoreDydxData(block.timestamp)
         ]);
-        console.log("Finished fetching data...");
+        console.log(`[${new Date().toISOString()}] Finished fetching data...`);
     } catch (error) {
-        console.log(`Error running cron job at : ${Math.floor(Date.now() / 1000)}`, error);
+        console.log(`[${new Date().toISOString()}] Error running cron job :`, error);
     }
 });
