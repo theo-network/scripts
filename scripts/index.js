@@ -19,7 +19,5 @@ const job = cron.schedule('* * * * *', async () => {
         console.log("Finished fetching data...");
     } catch (error) {
         console.log(`Error running cron job at : ${Math.floor(Date.now() / 1000)}`, error);
-        job.stop()
-        console.log("Stopped cron job!");
     }
 });
